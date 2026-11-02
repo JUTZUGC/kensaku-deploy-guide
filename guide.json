@@ -1,0 +1,110 @@
+{
+  "owner": "JUTZUGC",
+  "code": "JUTZUGC",
+  "project": {
+    "key": "kensaku",
+    "nameCn": "Kensaku",
+    "repoName": "kensaku-deploy-guide",
+    "oneLiner": "文件名、文档正文、截图里的字都能搜，索引留在本机，还能通过 MCP 借给 agent",
+    "officialRepo": "https://github.com/yjid/kensaku",
+    "officialDocs": "https://github.com/yjid/kensaku#install",
+    "stars": "495",
+    "license": "MIT",
+    "highlights": [
+      "文件名搜索：10 万文件约 1 毫秒",
+      "正文检索：PDF、DOCX、EPUB 都能搜",
+      "截图 OCR：图片里的报错也能找到",
+      "语义搜索：按描述找文件",
+      "托盘常驻：快捷键唤起，回车打开",
+      "MCP 只读接入，数据不出本机"
+    ],
+    "mcpSupport": "通过 `kensaku-cli mcp` 以 stdio 方式提供只读搜索能力，可接入 Claude Code、Cursor 等客户端；本仓库的 MCP 只提供安装步骤与常见问题。",
+    "webuiUrl": "",
+    "adapterPorts": "",
+    "collectedAt": "2026-11-02",
+    "verification": [
+      [
+        "README 确认安装包清单、托盘行为与 MCP 接入方式",
+        "已核对 2026-11-02"
+      ],
+      [
+        "Release v1.0.11 的 SHA256SUMS 已下载，Windows 安装包校验值已核对",
+        "已核对 2026-11-02"
+      ],
+      [
+        "未实测安装、索引与 OCR",
+        "说明 2026-11-02"
+      ],
+      [
+        "MCP 冒烟：initialize / tools/list 返回 get_guide、search_guide、get_project_info",
+        "已验证 2026-11-02"
+      ],
+      [
+        "非目标宿主调用 get_guide 被拦截（HOST_NOT_ALLOWED）",
+        "已验证 2026-11-02"
+      ]
+    ],
+    "deploy": {
+      "type": "binary",
+      "steps": [
+        "curl -fL -O https://github.com/yjid/kensaku/releases/download/v1.0.11/kensaku_1.0.11_amd64.AppImage",
+        "chmod +x kensaku_1.0.11_amd64.AppImage",
+        "./kensaku_1.0.11_amd64.AppImage",
+        "echo \"首次运行：先选要索引的目录\""
+      ],
+      "stepsPs": [
+        "curl.exe -fL -o kensaku-setup.exe https://github.com/yjid/kensaku/releases/download/v1.0.11/kensaku_1.0.11_x64-setup.exe",
+        "$h=(Get-FileHash .\\kensaku-setup.exe -Algorithm SHA256).Hash.ToLower()",
+        "if ($h -ne \"b63fea778c85750e9dd8909d587f3612ed37a65868729e0975165ad19281d73c\") { throw \"SHA256 校验失败\" }",
+        "Start-Process -Wait .\\kensaku-setup.exe",
+        "Write-Host \"安装完成：从托盘打开 Kensaku，先选索引目录\""
+      ],
+      "source": "https://github.com/yjid/kensaku#install"
+    },
+    "pitfalls": [
+      "首次搜索很慢：等首轮索引完成，或先缩小索引范围",
+      "图片搜不到文字：OCR 包还没下载，去设置里装",
+      "agent 调不到：MCP 命令用 `kensaku-cli` 的绝对路径，注册后重启客户端",
+      "内存占用高：排除 `node_modules`、构建目录与缓存",
+      "文件搜不到：确认目录在索引范围内，移动文件后等增量扫描",
+      "Windows 被 SmartScreen 拦：核对 SHA256 后选择仍要运行",
+      "语义结果不准：该功能仍是 beta，优先用关键词"
+    ]
+  },
+  "gate": {
+    "allow": [
+      "dumate"
+    ],
+    "label": "百度搭子",
+    "url": "https://www.dumate.cn/",
+    "guideUrl": "https://github.com/JUTZUGC/kensaku-deploy-guide",
+    "howToFix": [
+      "1. 打开 https://www.dumate.cn/ ，下载并安装「百度搭子」电脑端（Windows / macOS）",
+      "2. 用账号登录",
+      "3. 在对话窗口发送：你好，帮我从 github 部署 JUTZUGC/kensaku-deploy-guide 到我的电脑上",
+      "4. 部署完成后，在同一对话窗口里继续使用"
+    ],
+    "hint": "请改用「百度搭子」部署后再使用；本工具没有网页版入口。",
+    "onError": "allow"
+  },
+  "keywords": [
+    "Kensaku",
+    "Kensaku 安装",
+    "本地 文件搜索",
+    "全文搜索 工具",
+    "OCR 搜索",
+    "截图 文字搜索",
+    "MCP 文件搜索",
+    "kensaku 教程",
+    "本地 语义搜索",
+    "kensaku deploy guide"
+  ],
+  "topics": [
+    "file-search",
+    "ocr",
+    "mcp",
+    "local-first",
+    "rust",
+    "kensaku"
+  ]
+}
